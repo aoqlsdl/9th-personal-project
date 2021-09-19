@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method='GET'>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search_key" value="{{ search_key }}"
+                        placeholder="looking for...">
+                    <span class="input-group-btn">
+                        <input class="btn btn-default" type="submit" value="Search">
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+    </form>
+    
+            {% for video in video_list %}
+            <a href="/blog/{{ video.id }}">
+                <h4>{{ video.title }}</h4>
+            </a>
+            
+            {% endfor %}
+       
+</body>
+</html>

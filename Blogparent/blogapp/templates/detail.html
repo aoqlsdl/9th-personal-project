@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>좋아요 수 : {{blog.like_count}}</div>
+
+    <a href="{% url 'post_like_toggle' blog.id %}">
+        {% if blog in user.profile.like_posts.all %}
+            취소
+        {% else %}
+            좋아요
+        {% endif %}
+    </a>
+    <hr>    
+    <a href="{% url 'create_youtube' blog.id %}"> 영상 추가하기</a>
+    <h1>{{ blog.title}}</h1>
+    <p>글쓴이 : {{blog.author}}</p>
+    <p>날짜 : {{blog.pub_date}}</p>
+    <p>본문 : {{blog.body}}</p>
+    <br>
+    <p>
+        {% for hashtag in hashtags.all %}
+        #{{ hashtag }}
+        {% endfor %}
+    </p>
+    <hr>
+
+            {% for youtube in blog.youtubes.all %}
+            <div>
+                <iframe src="{{ youtube.url }}" title="YouTube video player" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p>{{ youtube.subtitle }}</p>
+            <p>{{ youtube.body }}</p>
+
+            <a href="{% url 'edit_youtube' blog.id youtube.id %}">수정</a>
+
+            <a href="{% url 'delete_youtube' blog.id youtube.id %}">삭제</a>
+
+            {% empty %}
+            <div>아직 영상이 없습니다.</div>
+            
+            {% endfor %}
+
+    <hr>
+    <a href="{% url 'edit' blog.id %}">수정하기</a>
+    <a href="{% url 'delete' blog.id %}">삭제하기</a>
+    <a href="{% url 'home' %}">홈으로 돌아가기</a>
+    <br>
+    <hr>
+    <a href="{% url 'add_comment_to_post' blog.id %}">댓글달기</a>
+    <br>
+
+    {% for comment in blog.comments.all %}
+        <div class="comment">
+            <div class="name">{{ comment.author_name }}</div>
+            <div class="date">{{ comment.created_at }}</div>
+            <div class="text">{{ comment.comment_text }}</div>
+        </div>
+    {% empty %}
+        <div>아직 댓글이 없습니다.</div>
+    {% endfor %}
+</body>
+</html>

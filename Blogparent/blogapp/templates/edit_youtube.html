@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'update_youtube' youtube.id %}" method="post">
+        {% csrf_token %}
+        <p>제목: <input type="text" name="subtitle" value="{{ youtube.subtitle}}"></p>
+        본문: <textarea name="body" id="" cols="30" rows="10">{{ youtube.body}}</textarea>
+        url: <input type="text" name="url" value="{{ youtube.url}}"></p>
+        <button type="submit">제출</button>
+    </form>
+</body>
+</html>
