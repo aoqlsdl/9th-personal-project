@@ -7,15 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-    <div>좋아요 수 : {{blog.like_count}}</div>
+  
+    <button id="{{blog.id}}" onclick="post_like(this.id)"> <!--좋아효 버튼을 만들어주기-->
+        좋아요
+        <span id="like_count">{{blog.like.count}}</span> 
+        <!--{{blog.like.count}}가 없어도 되지만! 처음에 0을 보여주기 위해 넣어줌!-->
+    </button>
 
-    <a href="{% url 'post_like_toggle' blog.id %}">
-        {% if blog in user.profile.like_posts.all %}
-            취소
-        {% else %}
-            좋아요
-        {% endif %}
-    </a>
+    <!-- toast message -->
+    <div class='toast' style='display:none'>
+        <div id="message"></div>
+    </div>    
     <hr>    
     <a href="{% url 'create_youtube' blog.id %}"> 영상 추가하기</a>
     <h1>{{ blog.title}}</h1>
@@ -69,5 +71,28 @@
     {% empty %}
         <div>아직 댓글이 없습니다.</div>
     {% endfor %}
+
+    
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function post_like(id) {
+            console.log("hi")
+            $.ajax({
+                url: "{%url 'likes'%}", // data를 전송할 url 입니다.
+                data: {
+                    'blog_id': id
+                }, // post_id 라는 name으로 id 값 전송
+                dataType: "json",
+                success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
+                    $('#like_count').html(response.like_count) //id가 like_count의 내용을 전송받은 좋아요 수로 바꾼다
+                    $('#message').html(response.message) //id가 message의 내용을 전송받은 message로 바꾼다
+                    $('.toast').fadeIn(400).delay(100).fadeOut(400) //class가 toast인 것을 서서히 나타나게 하는 메서드입니다.
+                }
+            })
+        }
+    </script>
 </body>
 </html>
