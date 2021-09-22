@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from django.contrib.auth import authenticate, login, logout
-from account.forms import RegisterForm
+from django.shortcuts import get_object_or_404
+from account.forms import RegisterForm, CustomUserChangeForm
+
+from .models import AbstractUser
 # Create your views here.
 
 def login_view(request):
@@ -33,3 +36,17 @@ def register_view(request):
     else:
         form = RegisterForm()
         return render(request, 'signup.html',{'form':form})
+
+
+def edit_user_info(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+        context = {
+            'form': form
+        }
+    return render(request, 'edit_user_info.html', context)

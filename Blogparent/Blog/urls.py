@@ -32,6 +32,7 @@ urlpatterns = [
     path('account/login', account.login_view, name="login"),
     path('account/logout', account.logout_view, name="logout"),
     path('account/register', account.register_view, name="register"),
+    path('edit_user_info/', account.edit_user_info, name='edit_user_info'),
     path('<int:blog_id>/create_youtube', blogapp.create_youtube, name="create_youtube"),
     path('delete/<int:blog_id>/<int:youtube_id>', blogapp.delete_youtube, name="delete_youtube"),
     path('edit/<int:blog_id>/<int:youtube_id>', blogapp.edit_youtube, name="edit_youtube"),

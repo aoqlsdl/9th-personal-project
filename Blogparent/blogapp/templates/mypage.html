@@ -9,6 +9,19 @@
 <body>
     <h1>마이페이지</h1>
 
+    <h2>내 정보</h2>
+    
+    {% if user.is_authenticated %}
+    <p>아이디 : {{ user.username }}</p>
+    <p>닉네임 : {{ user.nickname }}</p>
+    <p>대학 : {{ user.university }}</p>
+    <p>위치 : {{ user.location }}</p>
+
+    {% endif %}
+   
+
+    <h3><a href="{% url 'edit_user_info' %}">내 정보 수정하기</a></h3>
+
     <h2>내가 쓴 글</h2>
     {% for myblog in myblogs.all %}
     <p>제목 :<a href="/blog/{{ myblog.id }}">{{ myblog.title }}</a></p>
