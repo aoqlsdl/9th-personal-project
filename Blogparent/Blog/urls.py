@@ -38,5 +38,8 @@ urlpatterns = [
     path('update_youtube/<int:youtube_id>', blogapp.update_youtube, name="update_youtube"),
     path('video_list/', blogapp.video_list, name="video_list"),
     path('mypage/', blogapp.mypage, name="mypage"),
-     path('post_like_toggle/<int:blog_id>', blogapp.post_like_toggle ,name="post_like_toggle"),
+    path('post_like_toggle/<int:blog_id>', blogapp.post_like_toggle ,name="post_like_toggle"),
+    path('delete_comment/<int:blog_id>/<int:comment_id>', blogapp.delete_comment, name="delete_comment"),
+    path('edit_comment/<int:blog_id>/<int:comment_id>', blogapp.edit_comment, name="edit_comment"),
+    path('update_comment/<int:comment_id>', blogapp.update_comment, name="update_comment"),
 ]
