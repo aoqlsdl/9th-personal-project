@@ -30,7 +30,7 @@
     <h2>좋아요 누른 글</h2>
 
         {% for liked_blog in liked_blogs.all %}
-            <p>제목 : {{liked_blog.title }}</p>
+            <p>제목 : {{ liked_blog.title }}</p>
         {% empty %}
             <div>아직 좋아요 누른 글이 없습니다.</div>
         {% endfor %}

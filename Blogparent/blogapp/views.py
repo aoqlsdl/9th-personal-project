@@ -63,6 +63,7 @@ def add_comment_to_post(request, blog_id): #댓글
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.author_name = request.user
             comment.post = blog
             comment.save()
             return redirect('detail', blog_id)
@@ -129,7 +130,8 @@ def video_list(request):
 
 def mypage(request):
     myblog = Blog.objects.filter(author = request.user)
-    liked_blog = request.user.like_posts.all()
+    user = request.user
+    liked_blog = user.likes.all()
     user_info = request.user
     return render(request, 'mypage.html',{'myblogs': myblog, 'liked_blogs':liked_blog, 'user_infos':user_info})
 
