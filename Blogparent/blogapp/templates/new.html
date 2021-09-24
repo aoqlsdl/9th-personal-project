@@ -9,9 +9,12 @@
 <body>
     <h1>글 쓰기</h1>
 
-    <form action="{% url 'create' %}" method="post">
+
+    <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p}}
+        제목: <input type="text" name="title" id="">
+        본문: <textarea name="body" id="" cols="30" rows="10"></textarea>
+        커버 이미지 : <input type="file" id="cover_image" name="cover_image" value="{{ blog.cover_image}}">
         해시태그 : <input type="text" name="hashtags" placeholder="해시태그 ,로 구분">
         <button type="submit">제출</button>
     </form>

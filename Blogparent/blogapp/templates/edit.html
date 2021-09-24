@@ -7,10 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{% url 'update' blog.id %}" method="post">
+    <form action="{% url 'update' blog.id %}" method="POST" enctype="multipart/form-data">
+
         {% csrf_token %}
         <p>제목: <input type="text" name="title" value="{{ blog.title}}"></p>
         본문: <textarea name="body" id="" cols="30" rows="10">{{ blog.body}}</textarea>
+        커버 이미지 : <input type="file" id="cover_image" name="cover_image" value="{{ blog.cover_image}}">
+
         <button type="submit">제출</button>
     </form>
 </body>

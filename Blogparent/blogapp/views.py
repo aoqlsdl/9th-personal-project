@@ -1,7 +1,7 @@
 from django.db.models.fields import BLANK_CHOICE_DASH
 from django.http import request
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Blog, Comment, HashTag, Youtube, CustomUser
+from .models import *
 from django.utils import timezone
 from .forms import BlogForm, CommentForm, YoutubeForm
 from django.contrib.auth.decorators import login_required
@@ -25,20 +25,20 @@ def new(request):
     return render(request, 'new.html', {'form':form})
 
 def create(request):
-    form = BlogForm(request.POST, request.FILES)
-    if form.is_valid(): #폼 유효성 검사
-        new_blog = form.save(commit=False) #임시저장을 위함
-        new_blog.pub_date = timezone.now()
-        new_blog.author = request.user
-        new_blog.save()
-        hashtags = request.POST['hashtags']
-        hashtag = hashtags.split(",")
-        for tag in hashtag:
-            ht = HashTag.objects.get_or_create(hashtag_name=tag)
-            new_blog.hashtag.add(ht[0])
-        return redirect('detail', new_blog.id) 
-    return redirect('home')
-
+    new_blog = Blog()
+    new_blog.pub_date = timezone.now()
+    new_blog.author = request.user
+    new_blog.title = request.POST['title']
+    new_blog.body=request.POST['body']
+    new_blog.cover_image = request.FILES['cover_image']
+    new_blog.save()
+    hashtags = request.POST['hashtags']
+    hashtag = hashtags.split(",")
+    for tag in hashtag:
+        ht = HashTag.objects.get_or_create(hashtag_name=tag)
+        new_blog.hashtag.add(ht[0])
+    return redirect('detail', new_blog.id) 
+  
 
 def edit(request, blog_id):
     blog_detail = get_object_or_404(Blog, pk=blog_id)
@@ -48,6 +48,7 @@ def update(request, blog_id):
     blog_update = get_object_or_404(Blog, pk=blog_id)
     blog_update.title = request.POST['title']
     blog_update.body = request.POST['body']
+    blog_update.cover_image = request.FILES['cover_image']
     blog_update.save()
     return redirect('home')
 

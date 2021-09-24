@@ -129,6 +129,11 @@ STATICFILES_DIRS=[
 
 STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 
+#미디어 파일이 어디로 모일지
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#홈페이지 이름/media/파일이름 url # 항상 / 로 끝나도록 설정
+MEDIA_URL='/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

@@ -17,6 +17,7 @@ class Blog(models.Model): #큰 글
     body =models.TextField()
     hashtag = models.ManyToManyField(HashTag) #해시태그
     like = models.ManyToManyField(CustomUser, related_name='likes',blank=True)
+    cover_image= models.ImageField(upload_to='images/', blank=True)
 
     def __str__(self):
         return self.title
@@ -51,4 +52,9 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_text
 
+class Image(models.Model):
+    img_title = models.CharField(max_length=10)
+    
 
+    def __str__(self):
+        return self.img_title
