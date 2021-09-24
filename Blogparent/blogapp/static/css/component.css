@@ -2,10 +2,6 @@
 *{
     text-decoration: none;
 }
-.search_button{
-    color:white;
-    border-style: none;
-    border-radius: 3px;
-    background-color: blue;
-    margin: 5px;
+.search-button{
+  color: red;
 }
