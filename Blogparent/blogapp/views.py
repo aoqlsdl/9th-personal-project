@@ -2,6 +2,7 @@ from django.db.models.fields import BLANK_CHOICE_DASH
 from django.http import request
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
+from django.db.models import Count
 from django.utils import timezone
 from .forms import BlogForm, CommentForm, YoutubeForm
 from django.contrib.auth.decorators import login_required
@@ -12,8 +13,9 @@ import json
 # Create your views here.
 
 def home(request):
-    blog = Blog.objects
-    return render(request, 'home.html', {'blogs':blog})
+    blog = Blog.objects.order_by('?') #랜덤으로 줄 세우기
+    popular_blog = Blog.objects.annotate(like_count=Count('like')).order_by('-like_count')[:3] #인기글 3개
+    return render(request, 'home.html', {'blogs':blog,'popular_blogs':popular_blog}) 
 
 def detail(request, blog_id):
     blog_detail = get_object_or_404(Blog, pk=blog_id)

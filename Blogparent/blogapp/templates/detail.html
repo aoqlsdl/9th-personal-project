@@ -10,7 +10,11 @@
     
 </head>
 <body>
-    
+    {% load social_share %}
+    <button type="button">{% post_to_twitter "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Twitter" %}</button>
+    <button type="button">{% post_to_facebook "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Facebook!" %}</button>
+    <button type="button">{% post_to_gplus "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Google+!" %}</button>
+
     <button id="{{blog.id}}" onclick="post_like(this.id)"> <!--좋아효 버튼을 만들어주기-->
         좋아요
         <span id="like_count">{{blog.like.count}}</span> 

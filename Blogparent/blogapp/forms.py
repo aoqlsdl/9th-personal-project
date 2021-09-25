@@ -2,6 +2,7 @@ from django import forms
 from django.db.models import fields
 from .models import Blog, Comment, Youtube
 
+
 class BlogForm(forms.ModelForm):
     class Meta:
       model = Blog

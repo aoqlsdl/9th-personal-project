@@ -65,7 +65,23 @@
     <a href="{% url 'mypage' %}">마이페이지</a>
     {% endif %}
 
-    
+    <!-- 여기 -->
+  
+
+    {% for popular_blog in popular_blogs.all %}
+    <p>인기글 : {{ popular_blog.title }} 좋아요 수 : {{ popular_blog.like_count }}</p>
+      {% if popular_blog.cover_image %}
+      <img src="{{popular_blog.cover_image.url}}" width="160" height="90" alt="사진">
+      {% else %}
+      <img src="{% static 'img/baseimg.jpg'%}" width="160" height="90" alt="사진">
+      {% endif %}
+      <p>글쓴이: {{popular_blog.author}}</p>
+      <p>날짜: {{popular_blog.pub_date}}</p>
+      <p>본문: {{popular_blog.summary}}<a href="{% url 'detail' popular_blog.id %}">...more</a></p>
+    {% endfor %}    
+    <!-- 여기까지 -->
+
+    <hr>
     {% for blog in blogs.all %}
     <div>
         {% if blog.cover_image %}
@@ -73,6 +89,7 @@
         {% else %}
         <img src="{% static 'img/baseimg.jpg'%}" width="160" height="90" alt="사진">
         {% endif %}
+        좋아요 개수 : {{blog.like.count}}
         <p>제목: {{blog.title}}</p>
         <p>글쓴이: {{blog.author}}</p>
         <p>날짜: {{blog.pub_date}}</p>
