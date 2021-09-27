@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 좋아요 관련 js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <title>Document</title>
+{% extends 'base.html' %}
+{% load static%}
+
     
-</head>
-<body>
+    {% block content %}
+    
     {% load social_share %}
     <button type="button">{% post_to_twitter "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Twitter" %}</button>
     <button type="button">{% post_to_facebook "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Facebook!" %}</button>
@@ -91,27 +85,5 @@
     {% empty %}
         <div>아직 댓글이 없습니다.</div>
     {% endfor %}
-
+    {% endblock %}
     
-
-
-<script type="text/javascript">
-    function post_like(id) {
-        console.log("hi")
-        $.ajax({
-            url: "{%url 'likes'%}", // data를 전송할 url 입니다.
-            data: {
-                'blog_id': id
-            }, // post_id 라는 name으로 id 값 전송
-            dataType: "json",
-            success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
-                $('#like_count').html(response.like_count) //id가 like_count의 내용을 전송받은 좋아요 수로 바꾼다
-                $('#message').html(response.message) //id가 message의 내용을 전송받은 message로 바꾼다
-                $('.toast').fadeIn(400).delay(100).fadeOut(400) //class가 toast인 것을 서서히 나타나게 하는 메서드입니다.
-            }
-        })
-    }
-</script>
-    
-</body>
-</html>

@@ -5,105 +5,173 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--css-->
     <link rel="stylesheet" href="{% static 'css/component.css'%}" type="text/css">
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" 
-    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" 
-    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-   
+    <!--폰트어썸-->
+    <script src="https://kit.fontawesome.com/1b24a1a7da.js" crossorigin="anonymous"></script> 
 
-    <title>Document</title>
+    <title>Home</title>
 </head>
 <body>
-
-    <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    사용설명서
-  </button>
   
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">우리 페이지에 처음 방문하시나요?</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <P>우리 홈페이지 사용법 입니다.</P><P>우리 홈페이지 사용법 입니다.</P>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+  <div class="side-header">
+
+    <a class="logo" href="{% url 'home' %}">
+      <i class="fas fa-globe"></i>
+      <p>ARCHIVE MD</p>
+    </a>
+
+    <div class="menu-buttons">
+    <a href="{% url 'home' %}"> Home</a>
+
+      {% if not user.is_authenticated %}
+      <a href ="{% url 'login' %}">Login</a>
+      {% endif %}
+      
+      {% if user.is_authenticated %}
+      <a href ="{% url 'logout' %}">Logout</a>
+      {% endif %}
+
+      {% if not user.is_authenticated %}
+      <a href ="{% url 'register' %}">Signup</a>
+      {% endif %}
+
+      {% if user.is_authenticated %}
+      <a href="{% url 'mypage' %}">Mypage</a>
+      {% endif %}
+
+      <a href="{% url 'mypage' %}">About</a>
+      <a href="{% url 'mypage' %}">Awards</a>
+      <a href="{% url 'mypage' %}">Notice</a>
+
+      <a href="{% url 'mypage' %}">Create</a>
+
+      <a class="side-search-button" href="{% url 'video_list' %}">Search</a>
+    </div>
+
+    <div class="social-buttons">
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-facebook"></i>
+      <i class="fab fa-google"></i>
+      <i class="fab fa-github"></i>
+      <i class="fab fa-instagram"></i>
+    </div>
+  </div> <!--사이드헤더 끝-->
+    
+  <div class="container">
+
+    <div class="upper-header">
+
+      <a class="search-button" href="{% url 'video_list' %}">Search<i class="fas fa-search" style="margin-left:5px;"></i></a>
+
+      <a class="how-to-use">
+        How to use
+      </a>
+
+      <a class="write" href ="{% url 'new' %}">Create</a>
+      
+    </div> 
+
+    <div class="info-section">
+
+      <div class="info-1">
+        <img src="{% static 'img/baseimg.jpg'%}" width="720" height="420" alt="사진">
+        <div class="infos">
+          <a>CREATIVE DESIGN 1</a>
+          <a>USABLITY & CONTENT 2</a>
+          <a>CODE & FUNCTIONALITY  3</a>
+          <a>TOTAL SCORE 4</a>
         </div>
       </div>
+
+      <div class="info-2">
+       <p>Devstars Web</p>
+       <p>Deverlopment</p>
+       <p>By Dayun</p>
+       <p>Incheon, Korea</p>
+       <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+      </div>
+    </div> <!--info-section-->
+
+    <!--인기글-->
+    <p class="hot-posts">Hot Posts</p>
+
+    <div class="popular-section">
+
+      {% for popular_blog in popular_blogs.all %}
+        <div class="popular-post">
+        <!--이미지-->
+        <a href="{% url 'detail' popular_blog.id %}">
+          {% if popular_blog.cover_image %}
+          <img src="{{popular_blog.cover_image.url}}" width="320" height="180" alt="사진">
+          {% else %} 
+          <img src="{% static 'img/baseimg.jpg'%}" width="320" height="180" alt="사진">
+          {% endif %}
+        </a>
+
+        <div style="display: flex;  ">
+          <p style="margin: 0;">{{popular_blog.title}}</p>
+          <p style="margin: 0;">{{ popular_blog.like_count }}</p>
+        </div>
+        <p style="margin: 0;">by {{popular_blog.author}}</p>
+      </div>
+      {% endfor %}    
+
+    </div><!--인기글 섹션-->
+
+    <div class="insert-box">
+
     </div>
-  </div>
 
+    <!--일반 게시글 섹션-->
+    <div class="post-section">
 
-    <a class="search-button" href="{% url 'video_list' %}">검색하기</a>
+        {% for blog in blogs.all %}
+          <div class="posts">
+            <a href="{% url 'detail' blog.id %}">
+              {% if blog.cover_image %}
+              <img src="{{blog.cover_image.url}}" width="250" height="140" alt="사진">
+              {% else %}
+              <img src="{% static 'img/baseimg.jpg'%}" width="250" height="140" alt="사진">
+              {% endif %}
+            </a>
 
-    {% if not user.is_authenticated %}
-    <a href ="{% url 'login' %}">로그인</a>
-    {% endif %}
-    
-    {% if user.is_authenticated %}
-    <a href ="{% url 'logout' %}">로그아웃</a>
-    {% endif %}
+              <div style="display: flex;">
+                <p style="margin: 0;">{{blog.title}}</p>
+               <p style="margin: 0;">{{blog.like.count}}</p> 
+              </div>
+              
+              <p style="margin: 0;">by {{blog.author}}</p>
+          </div>
+      {% endfor %}
 
-    {% if not user.is_authenticated %}
-    <a href ="{% url 'register' %}">회원가입</a>
-    {% endif %}
-
-    
-    {% if user.is_authenticated %}
-    <a href ="{% url 'new' %}">새로운 글 작성하기</a>
-    {% endif %}
-    
-    {% if user.is_authenticated %}
-    <a href="{% url 'mypage' %}">마이페이지</a>
-    {% endif %}
-
-    <!-- 여기 -->
-  
-
-    {% for popular_blog in popular_blogs.all %}
-    <p>인기글 : {{ popular_blog.title }} 좋아요 수 : {{ popular_blog.like_count }}</p>
-      {% if popular_blog.cover_image %}
-      <img src="{{popular_blog.cover_image.url}}" width="160" height="90" alt="사진">
-      {% else %}
-      <img src="{% static 'img/baseimg.jpg'%}" width="160" height="90" alt="사진">
-      {% endif %}
-      <p>글쓴이: {{popular_blog.author}}</p>
-      <p>날짜: {{popular_blog.pub_date}}</p>
-      <p>본문: {{popular_blog.summary}}<a href="{% url 'detail' popular_blog.id %}">...more</a></p>
-    {% endfor %}    
-    <!-- 여기까지 -->
-
-    <hr>
-    {% for blog in blogs.all %}
-    <div>
-        {% if blog.cover_image %}
-        <img src="{{blog.cover_image.url}}" width="160" height="90" alt="사진">
-        {% else %}
-        <img src="{% static 'img/baseimg.jpg'%}" width="160" height="90" alt="사진">
-        {% endif %}
-        좋아요 개수 : {{blog.like.count}}
-        <p>제목: {{blog.title}}</p>
-        <p>글쓴이: {{blog.author}}</p>
-        <p>날짜: {{blog.pub_date}}</p>
-        <p>본문: {{blog.summary}}<a href="{% url 'detail' blog.id %}">...more</a></p>
     </div>
-    {% endfor %}
-  
-    <script>
-    $(document).ready(function(){
-        $("#myBtn").click(function(){
-            $("#myModal").modal();
-        });
-    });
-    </script>
+
+
+    <footer>
+      <div class="footer-content-top">MORE INFO ABOUT MY PAGE</div>
+
+      <div class="footer-content-bottom">
+        <div>ARCHIVE MD © 2021</div>
+
+        <div class="footer-icons"> 
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-facebook"></i>
+          <i class="fab fa-google"></i>
+          <i class="fab fa-github"></i>
+          <i class="fab fa-instagram"></i>
+        </div>
+
+        <div>BE INSPIRED. BE INSPIRING.</div>
+    </div>
+    </footer>
+      
+
+
+
+</div>
+   
     
     
 </body>

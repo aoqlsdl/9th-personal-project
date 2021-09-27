@@ -14,7 +14,7 @@ import json
 
 def home(request):
     blog = Blog.objects.order_by('?') #랜덤으로 줄 세우기
-    popular_blog = Blog.objects.annotate(like_count=Count('like')).order_by('-like_count')[:3] #인기글 3개
+    popular_blog = Blog.objects.annotate(like_count=Count('like')).order_by('-like_count')[:4] #인기글 3개
     return render(request, 'home.html', {'blogs':blog,'popular_blogs':popular_blog}) 
 
 def detail(request, blog_id):
