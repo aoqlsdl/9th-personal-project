@@ -1,0 +1,116 @@
+.none{
+    display: none;
+}
+
+.big-post-section{
+    width: 100%;
+}
+
+.big-post{
+
+    border: solid black 1px;
+    padding: 20px;
+    
+    width: 60%;
+    height: auto;
+
+    margin: 50px auto 0 auto;
+}
+
+.big-post-info{
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.author-date{
+    margin: 0;
+    line-height: 30px;
+}
+
+.toast{
+    line-height: 30px;
+}
+.like-button{
+    margin-left: 4px;
+    background-color: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    
+}
+.like_count{
+    color: red;
+    text-align: middle;
+    
+}
+
+.fa-heart{
+    color: red;
+
+}
+
+.big-post-content{
+    display: flex;
+}
+
+.big-post-content-1{
+    width: 50%;
+    border: solid black 1px;
+    
+
+}
+
+.big-post-content-2{
+    width: 50%;
+    border: solid rgb(255, 0, 0) 1px;
+    color: red;
+    text-decoration: none;
+}
+
+.big-post-content-2 a{
+    color: red;
+}
+
+/*d*/
+.youtube-section{
+    background-color:#E7E5DD;
+    width: 100%;
+}
+
+.youtube-title-section{
+    
+    width: 60%;
+    margin: 50px auto 0 auto;
+
+}
+.youtube-post{
+
+    border: solid black 1px;
+    padding: 20px;
+    
+    width: 60%;
+    height: auto;
+
+    margin: 50px auto 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(auto-fill,minmax(20%,auto));
+
+}
+
+.youtube-object{
+    padding: 3px;
+}
+
+
+.youtube-object p{
+    margin: 0;
+}
+
+iframe{
+    width: 100%;
+    height: 56.25%;
+}

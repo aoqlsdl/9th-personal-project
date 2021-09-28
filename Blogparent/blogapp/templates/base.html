@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!--css-->
+     <link rel="stylesheet" href="{% static 'css/component.css'%}" type="text/css">
+     <link rel="stylesheet" href="{% static 'css/detail.css'%}" type="text/css">
+     <!--폰트어썸-->
+     <script src="https://kit.fontawesome.com/1b24a1a7da.js" crossorigin="anonymous"></script> 
+     <!-- 좋아요 관련 js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+     <title>Document</title>
+</head>
+<body>
+
+    <div class="side-header">
+
+        <a class="logo" href="{% url 'home' %}">
+          <i class="fas fa-globe"></i>
+          <p>ARCHIVE MD</p>
+        </a>
+    
+        <div class="menu-buttons">
+          <a href="{% url 'home' %}"> Home</a>
+    
+          {% if not user.is_authenticated %}
+          <a href ="{% url 'login' %}">Login</a>
+          {% endif %}
+          
+          {% if user.is_authenticated %}
+          <a href ="{% url 'logout' %}">Logout</a>
+          {% endif %}
+    
+          {% if not user.is_authenticated %}
+          <a href ="{% url 'register' %}">Signup</a>
+          {% endif %}
+    
+          {% if user.is_authenticated %}
+          <a href="{% url 'mypage' %}">Mypage</a>
+          {% endif %}
+    
+          <a href="{% url 'mypage' %}">About</a>
+          <a href="{% url 'mypage' %}">Awards</a>
+          <a href="{% url 'mypage' %}">Notice</a>
+    
+          <a href="{% url 'mypage' %}">Create</a>
+    
+          <a class="side-search-button" href="{% url 'video_list' %}">Search</a>
+        </div>
+
+        <div class="social-buttons">
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-google"></i>
+            <i class="fab fa-github"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+
+    </div>
+
+        <div class="container">
+
+            <div class="upper-header">
+        
+              <a class="search-button" href="{% url 'video_list' %}">Search<i class="fas fa-search" style="margin-left:5px;"></i></a>
+        
+              <a class="how-to-use">
+                How to use
+              </a>
+        
+              <a class="write" href ="{% url 'new' %}">Create</a>
+              
+            </div> 
+                
+                
+            {% block content %}
+            <!--낑겨 넣을 부분-->
+            {% endblock %}
+
+        
+            <footer>
+              <div class="footer-content-top">MORE INFO ABOUT MY PAGE</div>
+        
+              <div class="footer-content-bottom">
+                <div>ARCHIVE MD © 2021</div>
+        
+                <div class="footer-icons"> 
+                  <i class="fab fa-twitter"></i>
+                  <i class="fab fa-facebook"></i>
+                  <i class="fab fa-google"></i>
+                  <i class="fab fa-github"></i>
+                  <i class="fab fa-instagram"S></i>
+                </div>
+        
+                <div>BE INSPIRED. BE INSPIRING.</div>
+            </div>
+            </footer>
+              
+        
+        
+        
+        </div>
+
+        <script type="text/javascript">
+            function post_like(id) {
+                console.log("hi")
+                $.ajax({
+                    url: "{%url 'likes'%}", // data를 전송할 url 입니다.
+                    data: {
+                        'blog_id': id
+                    }, // post_id 라는 name으로 id 값 전송
+                    dataType: "json",
+                    success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
+                        $('#like_count').html(response.like_count) //id가 like_count의 내용을 전송받은 좋아요 수로 바꾼다
+                        $('#message').html(response.message) //id가 message의 내용을 전송받은 message로 바꾼다
+                        $('.toast').fadeIn(400).delay(100).fadeOut(400) //class가 toast인 것을 서서히 나타나게 하는 메서드입니다.
+                    }
+                })
+            }
+        </script>
+</body>
+</html>
