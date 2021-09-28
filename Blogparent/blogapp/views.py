@@ -11,11 +11,11 @@ from django.http import HttpResponse,JsonResponse
 import json
 
 # Create your views here.
-
 def home(request):
     blog = Blog.objects.order_by('?') #랜덤으로 줄 세우기
+    notice=Notice.objects.all()
     popular_blog = Blog.objects.annotate(like_count=Count('like')).order_by('-like_count')[:4] #인기글 3개
-    return render(request, 'home.html', {'blogs':blog,'popular_blogs':popular_blog}) 
+    return render(request, 'home.html', {'blogs':blog,'popular_blogs':popular_blog, 'notices':notice}) 
 
 def detail(request, blog_id):
     blog_detail = get_object_or_404(Blog, pk=blog_id)
@@ -23,8 +23,8 @@ def detail(request, blog_id):
     return render(request, 'detail.html', {'blog':blog_detail, 'hashtags':blog_hashtag})
 
 def new(request):
-    form = BlogForm()                           
-    return render(request, 'new.html', {'form':form})
+    blogform = BlogForm()                           
+    return render(request, 'new.html', {'form':blogform})
 
 def create(request):
     new_blog = Blog()
@@ -50,7 +50,6 @@ def update(request, blog_id):
     blog_update = get_object_or_404(Blog, pk=blog_id)
     blog_update.title = request.POST['title']
     blog_update.body = request.POST['body']
-    blog_update.cover_image = request.FILES['cover_image']
     blog_update.save()
     return redirect('home')
 
@@ -60,7 +59,7 @@ def delete(request, blog_id):
     return redirect('home')
 
 
-def add_comment_to_post(request, blog_id): #댓글
+def addCommentToPost(request, blog_id): #댓글
     blog = get_object_or_404(Blog, pk = blog_id)
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -158,3 +157,11 @@ def likes(request): #좋아요 기능
         # post.like.count() : 게시물이 받은 좋아요 수  
         context = {'like_count' : post.like.count(),"message":message}
         return HttpResponse(json.dumps(context), content_type='application/json')   
+
+
+#게시글 
+def notice_board(request, notice_id):
+    notice_detail = get_object_or_404(Notice, pk=notice_id)
+    return render(request, 'notice_board.html', {'notice':notice_detail})
+
+  

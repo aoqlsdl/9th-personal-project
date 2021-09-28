@@ -73,15 +73,15 @@
       
     </div> 
 
+     <!--info-section-->
     <div class="info-section">
 
       <div class="info-1">
         <img src="{% static 'img/baseimg.jpg'%}" width="720" height="420" alt="사진">
         <div class="infos">
-          <a>CREATIVE DESIGN 1</a>
-          <a>USABLITY & CONTENT 2</a>
-          <a>CODE & FUNCTIONALITY  3</a>
-          <a>TOTAL SCORE 4</a>
+          {%for notice in notices %}
+          <a>{{notice.notice_title}}{{notice.notice_pub_date}}</a>
+          {% endfor %}
         </div>
       </div>
 
@@ -92,7 +92,7 @@
        <p>Incheon, Korea</p>
        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
       </div>
-    </div> <!--info-section-->
+    </div> 
 
     <!--인기글-->
     <p class="hot-posts">Hot Posts</p>
@@ -112,9 +112,8 @@
 
         <div style="display: flex;  ">
           <p style="margin: 0;">{{popular_blog.title}}</p>
-          <p style="margin: 0;">{{ popular_blog.like_count }}</p>
         </div>
-        <p style="margin: 0;">by {{popular_blog.author}}</p>
+        <p style="margin: 0;">by {{popular_blog.author}} | {{ popular_blog.like_count }}</p>
       </div>
       {% endfor %}    
 
@@ -139,10 +138,10 @@
 
               <div style="display: flex;">
                 <p style="margin: 0;">{{blog.title}}</p>
-               <p style="margin: 0;">{{blog.like.count}}</p> 
+              
               </div>
               
-              <p style="margin: 0;">by {{blog.author}}</p>
+              <p style="margin: 0;">by {{blog.author}} | {{blog.like.count}}</p>
           </div>
       {% endfor %}
 

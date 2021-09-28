@@ -1,67 +1,131 @@
 {% extends 'base.html' %}
 {% load static%}
+{% load social_share %}
 
     
-    {% block content %}
+    {% block content %}<!--시작-->
     
-    {% load social_share %}
-    <button type="button">{% post_to_twitter "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Twitter" %}</button>
-    <button type="button">{% post_to_facebook "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Facebook!" %}</button>
-    <button type="button">{% post_to_gplus "~의 추천 영상! {{blog.title}}. 바로 확인하기!" object_or_url "Post to Google+!" %}</button>
-
-    <button id="{{blog.id}}" onclick="post_like(this.id)"> <!--좋아효 버튼을 만들어주기-->
-        좋아요
-        <span id="like_count">{{blog.like.count}}</span> 
-        <!--{{blog.like.count}}가 없어도 되지만! 처음에 0을 보여주기 위해 넣어줌!-->
-    </button>
-
-    <!-- toast message -->
-    <div class='toast' style='display:none'>
-        <div id="message"></div>
-    </div>    
-    <hr>    
-    {% if request.user == blog.author %}
-    <a href="{% url 'create_youtube' blog.id %}"> 영상 추가하기</a>
-    {% endif %}
-
-    <h1>{{ blog.title}}</h1>
-    <p>글쓴이 : {{blog.author}}</p>
-    <p>날짜 : {{blog.pub_date}}</p>
-    <p>본문 : {{blog.body}}</p>
-    <br>
-    <p>
-        {% for hashtag in hashtags.all %}
-        #{{ hashtag }}
-        {% endfor %}
-    </p>
-    <hr>
-
-            {% for youtube in blog.youtubes.all %}
-            <div>
-                <iframe src="{{ youtube.url }}" title="YouTube video player" frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <p>{{ youtube.subtitle }}</p>
-            <p>{{ youtube.body }}</p>
-
-            {% if request.user == blog.author %}
-            <a href="{% url 'edit_youtube' blog.id youtube.id %}">수정</a>
-            <a href="{% url 'delete_youtube' blog.id youtube.id %}">삭제</a>
-            {% endif %}
-
-            {% empty %}
-            <div>아직 영상이 없습니다.</div>
+    <div class="big-post-section">
+        
+        <div class="big-post">
+            <h1 class="title">{{ blog.title}}</h1>
             
-            {% endfor %}
+            <div class="big-post-info">
+                <p class="author-date">by {{blog.author}} | {{blog.pub_date}}</p>
+                
+                <div style="display: flex;">
+                <!-- toast message -->
+                 <div class='toast' style='display:none'>
+                    <div id="message"></div>
+                </div>   
+                <button class="like-button" id="{{blog.id}}" onclick="post_like(this.id)"> 
+                    <i class="fas fa-heart"></i>
+                    <span class="like_count" id="like_count">{{blog.like.count}}</span> 
+                </button>
+                </div> 
+               
+            </div>
+            
 
-    <hr>
-    {% if request.user == blog.author %}
-    <a href="{% url 'edit' blog.id %}">수정하기</a>
-    <a href="{% url 'delete' blog.id %}">삭제하기</a>
-    {% endif %}
-    <a href="{% url 'home' %}">홈으로 돌아가기</a>
-    <br>
-    <hr>
+            {% if blog.cover_image %}
+            <img src="{{blog.cover_image.url}}" width="800" height="440" alt="사진">
+            {% else %} 
+            <img src="{% static 'img/baseimg.jpg'%}" width="320" height="180" alt="사진">
+            {% endif %}
+            
+            <div class="big-post-content">
+
+               <div class="big-post-content-1">
+                   ABOUT {{ blog.body }}
+               </div>
+
+               <div class="big-post-content-2">
+                  
+                    <div class="hashtag">
+                        {% for hashtag in hashtags.all %}
+                        #{{ hashtag }}
+                        {% endfor %}
+                    </div>
+
+                    <div class="edit-buttons">
+                        {% if request.user == blog.author %}
+                        <a href="{% url 'edit' blog.id %}">EDIT</a>
+                        <a href="{% url 'delete' blog.id %}">DELETE</a>
+                        {% endif %}
+
+                        
+                    </div>
+                    
+                  
+                    <div class="big-post-buttons">
+                        <div style="display: flex;"><i class="fab fa-twitter"></i>{% post_to_twitter "{{blog.author}}의 추천 영상! {{blog.title}}. ARCHIVE MD에서 바로 확인하기!" object_or_url "Twitter" %}</div>
+                        <div style="display: flex;"><i class="fab fa-facebook"></i>{% post_to_facebook "{{blog.author}}의 추천 영상! {{blog.title}}. ARCHIVE MD에서 바로 확인하기!" object_or_url "???" %}</div>
+                        <div style="display: flex;"><i class="fab fa-google"></i>{% post_to_gplus "{{blog.author}}의 추천 영상! {{blog.title}}. ARCHIVE MD에서 바로 확인하기!" object_or_url "Google+" %}</div>
+                    </div>
+
+               </div>
+
+            </div>
+           
+           
+        </div>
+    
+
+    </div>
+
+
+    <div class="youtube-section">
+
+        <div class="youtube-title-section">
+            <h1 class="youtube-title">YouTube</h1>
+            {% if request.user == blog.author %}
+            <a href="{% url 'create_youtube' blog.id %}">ADD VIDEO</a>
+            {% endif %}
+        </div>
+        
+
+        <div class="youtube-post">
+            
+                {% for youtube in blog.youtubes.all %}
+                    <div class="youtube-object">
+                        
+                        <div>
+                            <iframe  src="{{ youtube.url }}" title="YouTube video player" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <p>{{ youtube.subtitle }}</p>
+                        <p>{{ youtube.body }}</p>
+        
+                        {% if request.user == blog.author %}
+                        <a href="{% url 'edit_youtube' blog.id youtube.id %}">EDIT</a>
+                        <a href="{% url 'delete_youtube' blog.id youtube.id %}">DELETE</a>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                <div>아직 영상이 없습니다.</div>
+                {% endfor %}
+
+        </div>
+        
+
+        
+
+    </div>
+
+    <div class="comment-section">
+
+    </div>
+
+
+    <div class="none">
+    
+   
+
+   
+
+     
+
+
     {% if not user.is_authenticated %}
     <p><a href="{% url 'login' %}">로그인 후 댓글 달기</a></p>
     {% endif %}
@@ -78,12 +142,13 @@
         </div>
         {% if request.user == comment.author_name %}
         <ul>
-            <p><a href="{% url 'edit_comment' blog.id comment.id %}">댓글 수정</a></ㅔ>
+            <p><a href="{% url 'edit_comment' blog.id comment.id %}">댓글 수정</a></p>
             <p><a href="{% url 'delete_comment' blog.id comment.id %}">댓글 삭제</a></p>
         </ul>
         {% endif %}
     {% empty %}
         <div>아직 댓글이 없습니다.</div>
     {% endfor %}
+</div>
     {% endblock %}
     

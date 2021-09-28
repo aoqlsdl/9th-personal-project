@@ -48,3 +48,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment_text
+
+class Notice(models.Model):
+    notice_title = models.CharField(max_length=100)
+    notice_pub_date = models.DateField('date published')
+    notice_body = models.TextField()
+
+    def __str__(self):
+        return self.notice_title
+    
+    def notice_summary(self):
+        return self.notice_body[:20]

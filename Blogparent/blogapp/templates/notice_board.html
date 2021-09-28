@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static%}
+
+    
+    {% block content %}
+
+    제목 {{notice.notice_title}}
+    본문 {{notice.notice_body}}
+    날짜 {{notice.notice_pub_date}}
+    {% endblock %}
+    
