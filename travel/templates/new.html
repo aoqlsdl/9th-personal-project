@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new record</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body{font-family: 'Noto Sans KR', sans-serif;}
+        h1{margin:50px 0 70px 0; text-align:center; font-weight: 900;}
+        .card{width: 70vw; margin: 0 auto;}
+        .card-body{width: 60vw; margin:20px auto;}
+        .card-title{font-size: 25px; font-weight: 700;  margin-top: 20px;}
+        .form-control{word-break: keep-all;}
+        .btn{float:right; width:100px; text-align: center;}
+    </style>
+</head>
+<body>
+    
+<h1>NEW RECORD</h1>
+
+    
+    
+<form action="{% url 'create' %}" method="post">
+    {% csrf_token %}
+    <div class="card border-primary mb-3">
+        <div class="card-body">
+            <div class="card-title" style="float: left;">제목</div>
+            <input class="form-control" type="text" name="title" value="{{ record.title }}">
+            <div class="form-group row">
+                <label for="user_name">작성자: </label>
+                <input type="text" class="form-control" name="user_name" placeholder="닉네임을 입력하세요">
+            </div>
+            <div class="card-title" style="float: left;">본문</div>
+            <textarea class="form-control" name="body" cols="40" rows="5">{{ record.body }}</textarea>
+                
+            <div class = "form-group row">
+                <div class="card-title">이미지 업로드</div>
+                <br>
+                <div class="card">
+                    <label for = "images"></label>
+                    <form method = "post" enctype = "multipart/form-data">
+                        <!-- {% csrf_token %} -->
+                        <input type="file" name="imgs" multiple>
+                    </form>
+                </div>
+            </div>
+            <div class = "form-group row">
+                <label for = "tags">해시태그: </label>
+                <input type = "text" class = "form-control" name = "tags" placeholder="지역명을 입력하세요(,로 구분)">
+            </div>
+            <input type="submit" value="기록 남기기" class="btn btn-dark">
+        </div>
+    </div>
+</form>
+    
+    
+{% endblock %}
+</body>
+</html>

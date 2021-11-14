@@ -1,0 +1,89 @@
+{% extends 'map.html'%}
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>상세 페이지</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <style>
+            body{font-family: 'Noto Sans KR', sans-serif;}
+            h1{margin: 40px; text-align:center; font-weight: 900;}
+            .card{width: 70vw; margin: 0 auto;}
+            .card-title{font-weight: 700;  margin-top: 20px;}
+            .card-text{width: 40vw; margin: 25px auto; word-break: keep-all; text-align: left;}
+            .btn{margin: 10px 0;}
+        </style>
+            <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=039ix81umz"></script>
+</head>
+<body>
+    
+    <h1>DETAIL PAGE</h1>
+    
+    <div class="card text-center">
+        <div class="card-header">MY TRAVEL</div>
+        <div class="card-body">
+            <h4 class="card-title">{{ record.title }}</h4>
+            <div>{{ record.pub_date }}</div>
+            <p class="card-text">{{ record.body }}</p>
+            <!-- 이미지 보여주기 -->
+            <ul>
+                
+                {% if record.image %}
+                <img src = "{{ record.image.url }}" height="600">
+                <br>
+                {% endif %}
+            </ul>
+            <br><br><br><br>
+            
+            
+            <hr>
+            <p style="color: blueviolet;">
+                {% for hashtag in hashtags.all %}
+                    #{{hashtag}}
+                {% endfor %}
+            </p>
+
+            <!-- 좋아요 버튼 -->
+            <a href="{% url 'posts:like_post' record.id %}">
+                {% if user in post.like_users.all %}
+                <i class="fas fa-heart"></i>
+                {% else %}
+                <i class="far fa-heart"></i>
+                {% endif %}
+            </a>
+            <a href="" class="btn btn-primary">공유하기</a>
+            <a href="{% url 'home' %}" class="btn btn-primary">돌아가기</a>
+            <a href="{% url 'edit' record.id %}" class="btn btn-primary">수정하기</a>
+            <a href="{% url 'delete' record.id %}" class="btn btn-outline-dark">삭제하기</a>
+        </div>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://my-travels-3.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    <script id="dsq-count-scr" src="//my-travels-3.disqus.com/count.js" async></script>
+</body>
+</html>
+
+{% endblock %}
