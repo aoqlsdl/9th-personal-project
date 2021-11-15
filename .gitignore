@@ -1,0 +1,5 @@
+*.log
+*.pot
+*.pyc
+__pyache__/
+db.split3
