@@ -1,4 +1,4 @@
-{% extends 'map.html'%}
+{% extends 'base.html' %}
 {% block content %}
 
 
@@ -10,6 +10,7 @@
         <title>상세 페이지</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
         <style>
             body{font-family: 'Noto Sans KR', sans-serif;}
             h1{margin: 40px; text-align:center; font-weight: 900;}
@@ -18,14 +19,30 @@
             .card-text{width: 40vw; margin: 25px auto; word-break: keep-all; text-align: left;}
             .btn{margin: 10px 0;}
         </style>
-            <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=039ix81umz"></script>
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=039ix81umz"></script>
+        <script type="text/javascript">
+            // 인증에 따른 수정, 삭제 버튼 숨김처리
+            for(i = 0; i < $(".writer_name").length; i++){
+                if($("#user_name").text() == $(".writer_name")[i].innerHTML){
+                    $("#control_id"+i).removeClass("hidden");
+                }
+            }
+        </script>
+        <script>
+            function share() {
+                var url = encodeURI(encodeURIComponent(myform.url.value));
+                var title = encodeURI(myform.title.value);
+                var shareURL = "https://share.naver.com/web/shareView?url=" + url + "&title=" + title;
+                document.location = shareURL;
+            }
+        </script>
 </head>
 <body>
     
     <h1>DETAIL PAGE</h1>
     
     <div class="card text-center">
-        <div class="card-header">MY TRAVEL</div>
+        
         <div class="card-body">
             <h4 class="card-title">{{ record.title }}</h4>
             <div>{{ record.pub_date }}</div>
@@ -38,51 +55,47 @@
                 <br>
                 {% endif %}
             </ul>
-            <br><br><br><br>
+            <br><br>
             
             
-            <hr>
-            <p style="color: blueviolet;">
+            <p style="color: rgb(139, 139, 139);">
                 {% for hashtag in hashtags.all %}
-                    #{{hashtag}}
+                #{{hashtag}}
                 {% endfor %}
             </p>
-
+            
             <!-- 좋아요 버튼 -->
-            <a href="{% url 'posts:like_post' record.id %}">
-                {% if user in post.like_users.all %}
-                <i class="fas fa-heart"></i>
+            <a href="{% url 'scrap_record' record.id %}">
+                {% if user in like_record.like_users.all %}
+                    <i class="fas fa-heart"></i>
                 {% else %}
-                <i class="far fa-heart"></i>
+                    <i class="far fa-heart"></i>
                 {% endif %}
             </a>
-            <a href="" class="btn btn-primary">공유하기</a>
-            <a href="{% url 'home' %}" class="btn btn-primary">돌아가기</a>
-            <a href="{% url 'edit' record.id %}" class="btn btn-primary">수정하기</a>
+            <br>
+            <p class="date">이 글을 {{ record.like_users }}명이 좋아합니다.</p>
+            <br>
+            
+            <a href="{% url 'home' %}" class="btn btn-outline-dark">돌아가기</a>
+            <a href="{% url 'edit' record.id %}" class="btn btn-outline-dark">수정하기</a>
             <a href="{% url 'delete' record.id %}" class="btn btn-outline-dark">삭제하기</a>
+            <a href="http://blog.naver.com/openapi/share?url=%22+encodeURIComponent(%22http://www.sample.com/sample.jsp?param1=value1&param2=value2"><input type="button" value="네이버에 공유하기" class="btn btn-outline-dark" onclick="share()"/></a>
         </div>
-        <div id="disqus_thread"></div>
-        <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://my-travels-3.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+        <div>
+            <div class="card-header"><a class = "btn btn-default" href="{% url 'add_comment' record.id %}">댓글 달기</a></div>
+            {% for comment in record.comments.all %}
+            <div class="card-body">
+                <strong> {{comment.user_name}} </strong>
+                <p>{{ comment.comment_date }}</p>
+                <p>{{ comment.comment_text|linebreaks }}</p>
+            </div>
+            {% empty %}
+            <p>댓글을 입력해주세요:)</p>
+            {% endfor %}
+        </div>
     </div>
-
-    <script id="dsq-count-scr" src="//my-travels-3.disqus.com/count.js" async></script>
+</div>
 </body>
 </html>
 

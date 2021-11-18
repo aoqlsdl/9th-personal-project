@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 결과</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+        <style>
+            body{font-family: 'Noto Sans KR', sans-serif;}
+            h1{margin: 40px; text-align:center; font-weight: 900;}
+            .card{width: 70vw; margin: 0 auto;}
+            .card-title{font-weight: 700;  margin-top: 20px;}
+            .card-text{width: 40vw; margin: 25px auto; word-break: keep-all; text-align: left;}
+            .btn{margin: 10px 0;}
+        </style>
+</head>
+<body>
+        <div class="content">
+            <div id="hashtag_posting">
+                {% if post_ %}
+                    <div class=card text-center data-aos="fade-in">
+                        <a href='{% url "detail" record.id %}'>
+                            <img src="{{ record.image.url }}" style="width: 40%; height: 40%;">
+                        </a>
+                        <h4>{{ record.title }}</h4>
+                        <p class="card-text"><small class="text-muted">{{ record.pub_date }}</small></p>
+                        <a href="{% url 'scrap_record' record.id %}">
+                            {% if user in scrap_record.like_users.all %}
+                                <i class="fas fa-heart"></i>
+                            {% else %}
+                                <i class="far fa-heart"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                {% else %}
+                    <img id="photo">
+                {% endif %}
+            </div>
+            
+            <br>
+            <br>
+            <br>
+            
+            <div class="card-title">{{ keyword }}과 관련된 게시글</div>
+            
+            <div class="image_box">
+            {% for post in post.all %}
+                    <div class=card text-center data-aos="fade-in"  style="width: 20%; height: 20%;">
+                        <a href='{% url "detail" post.id %}'>
+                            <img src="{{ post.image.url }}" style="width: 40%; height: 40%;">
+                        </a>
+                        <h4>{{ post.title }}</h4>
+                        <p class="card-text"><small class="text-muted">{{ post.pub_date }}</small></p>
+                        <a href="{% url 'scrap_record' post.id %}">
+                            {% if user in scrap_record.like_users.all %}
+                                <i class="fas fa-heart"></i>
+                            {% else %}
+                                <i class="far fa-heart"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <!-- <div class="card-title">게시글 {{ record.count }}개</div> -->
+                {% endfor %}
+            </div>
+        </div>
+    
+</body>
+</html>
+{% endblock %}

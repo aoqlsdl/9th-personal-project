@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 import map.views 
 
-app_name = 'posts'
+# app_name = 'posts'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', travel.home, name="home"),
@@ -37,7 +37,9 @@ urlpatterns = [
     path('<int:record_id>/comment', travel.add_comment, name='add_comment'),
     path('travel/mypage/', travel.mypage, name="mypage"),
     path('map/', map.views.map, name="map"),
-    path('like/<int:record_id>/', travel.like_record, name="like_record"),
+    path('like/<int:record_id>/', travel.scrap_record, name="scrap_record"),
+    path('fileupload/', travel.fileUpload, name="fileupload"),
+    path('hashtag/', travel.hashtag, name="hashtag"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

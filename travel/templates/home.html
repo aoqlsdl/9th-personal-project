@@ -9,6 +9,7 @@
     <title>모두의 여행기록</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <style>
         div, h1, h4, p, a { font-family: 'Noto Sans KR', sans-serif; text-align: center;}
         .navbar{position: fixed; left:0; top:0; width: 100%; z-index:999;}
@@ -30,23 +31,31 @@
 
 <br>
 <div class="hashtagBox">
-    hi
+    <form method='post' action='{% url "hashtag" %}'>
+        {% csrf_token %}
+        <input type="" name="search_button" placeholder="찾고 싶은 지역을 입력해주세요" style="background-color: rgb(242, 242, 242)">
+    </form>
 </div>
+<br>
 <div class="third_box33">
     {% for record in record.all %}
         <div class=card text-center data-aos="fade-in">
-            <img src="" alt="">
+            <a href='{% url "detail" record.id %}'>
+                <img src="{{ record.image.url }}" style="width: 40%; height: 40%;">
+            </a>
             <h4>{{ record.title }}</h4>
             <p class="card-text"><small class="text-muted">{{ record.pub_date }}</small></p>
-            <!-- <p>{{ record.body }}</p> -->
-            <a href='{% url "detail" record.id %}'>
-                자세히
+            <a href="{% url 'scrap_record' record.id %}">
+                {% if user in scrap_record.like_users.all %}
+                    <i class="fas fa-heart"></i>
+                {% else %}
+                    <i class="far fa-heart"></i>
+                {% endif %}
             </a>
-            <a href="">스크랩</a>
         </div>
     {% endfor %}
 </div>
-
+<br><br><br><br>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <!-- 텍스트 카드 스크롤 다운 효과를 위해서 넣어둔 소스입니다. body 끝나기 전에 들어가야 해서 위치 고정 부탁드려요 -->

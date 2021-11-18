@@ -31,34 +31,55 @@
   </head>
   
   <body>
-    <h3>information</h3>
-    <div class = "third_box33">
-      <p>아이디: {{user.username}}</p>
-    </div>
-    <br>
-    <h3>내가 스크랩한 글</h3>
-    <div class="third_box33">
-      {% for record in record.all %}
-        <div class=card text-center data-aos="fade-in">
-            <img src="" alt="">
-            <h4>{{ record.title }}</h4>
-            <p class="card-text"><small class="text-muted">{{ record.pub_date }}</small></p>
-            <!-- <p>{{ record.body }}</p> -->
-            <a href='{% url "detail" record.id %}'>
-                자세히
-            </a>
-            <a href="">스크랩</a>
-        </div>
-      {% endfor %}
-    </div>
+    <div style="background-color:   #F5F4F2; width: 1000px; height: auto; margin: auto;" >
+      <h1 style="color: #272422; text-align: center; margin-top: 20px; margin-bottom: 15px;">❤Hello, My Page!❤</h1>
+          
+      {% if user.is_authenticated%}
+      <div class="box_1">
+          <h1 class="tt" style=" font-family: 'SLEIGothicTTF';">회원 정보</h1>
+          <ul  style=" list-style: none;">
 
-    <footer class="text-muted">
-      <div class="container">
-        <p class="float-right">
-          <a href="#">Back to top</a>
-        </p>
-      </div>
-    </footer>
+              <li>{{record.user_name}}님의 여행 기록</li>
+              <li>{{record.user_name}}님의 스크랩 목록</li>
+
+          </ul>
+          
+          {% else %}
+          <h2>로그인/회원가입 후 이용해주세요</h2>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login">로그인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/signup">회원가입</a>
+          </li>
+          {% endif %}
+
+       </div>
+
+      <hr>
+
+      <div class="box_1">
+          <h1 class="tt" style=" font-family: 'SLEIGothicTTF';">커뮤니티</h1>
+          <ul  style=" list-style: none;">
+
+              <li>1. 다크 모드  </li>
+              <li>2. 알림 설정  </li>
+              <li>3. 이용 제한 내역 </li>
+              <li>4. 공지사항 </li>
+              <li>5. 서비스 이용약관</li>
+              <li>6. 정보 동의 설정</li>
+          </ul>
+          
+         
+
+       </div>
+
+
+      <hr> 
+
+</div>
+
+ 
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

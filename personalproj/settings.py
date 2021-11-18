@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ux9^2#0dbz-a+d8zr9m_rk=30g_5!u(#32(%d!_!hv6t-1p&=@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'travel.apps.TravelConfig',
     'django.contrib.sites',
+    'taggit',
     'account.apps.AccountConfig',
     'map.apps.MapConfig',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    
 ]
 
 MIDDLEWARE = [
@@ -129,7 +131,10 @@ USE_TZ = True
 STATIC_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
+# taggit
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_TAGS_FROM_STRING = 'portfolio.utils.hashtag_splitter'
+TAGGIT_STRING_FROM_TAGS = 'portfolio.utils.hashtag_joiner'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
