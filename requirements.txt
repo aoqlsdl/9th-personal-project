@@ -31,4 +31,4 @@ sqlparse==0.4.1
 urllib3==1.26.6
 whitenoise==5.3.0
 django-taggit==2.0.0
-django-tagging==2.0.0
+django-tagging==0.5.0
