@@ -4,9 +4,9 @@ from django.db.models.base import Model
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from taggit.managers import TaggableManager
+# from taggit.managers import TaggableManager
 from taggit.models import (
-    TagBase, TaggedItemBase
+    TagBase
 )
 
 # Create your models here.

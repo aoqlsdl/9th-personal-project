@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'map.apps.MapConfig',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    
 ]
 
 MIDDLEWARE = [
