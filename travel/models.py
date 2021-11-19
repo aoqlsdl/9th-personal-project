@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 # from taggit.managers import TaggableManager
 from taggit.models import (
-    TagBase
+    TagBase, TaggedItemBase
 )
 
 # Create your models here.
