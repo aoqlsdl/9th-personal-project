@@ -1,1 +1,1 @@
-web: gunicorn 9th-personal-project-main_base wsgi --log-file-
+web: gunicorn 9th-personal-project-main_base.wsgi --log-file-
